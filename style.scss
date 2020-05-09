@@ -1,0 +1,89 @@
+/*
+* GREGSLIB - TheOdinProject JS Project 1 
+* http://gerrg.com
+* -----------------------------------------------------------------------------------
+* 1. Create a bookshelf, let users put books on the shelf.
+* 2. Use recommended method for Prototypal inheritance.
+* 3. Maybe implement self storage. (cookie or local)
+* 4. Make it pretty - Sassy
+* 5. Submit to odin
+*/
+
+$background-color-dark: #333;
+$background-color-light: #e1f9fd;
+$border-ugly: 1px dashed #666;
+$font-main: 'Special Elite', cursive;
+
+body{
+    background-color: $background-color-dark;
+    font-family: $font-main;
+    
+
+    .wrapper{
+        background-color: #fff;
+        margin: 0 auto;
+        max-width: 800px;
+
+        #library{
+
+            @extend .d-flex;
+
+            .shelf{
+                width: 50%
+            }
+
+            .form-wrapper{
+                background-color: $background-color-light;
+                border-left: $border-ugly;
+                width: 50%;
+                padding: 1rem;
+                
+                form{
+                    width: 100%;
+                    margin: 0 auto;
+                    text-align: center;
+
+                    p{
+                        margin: 0 0 .25rem 0;
+
+
+                            label{
+                                display: block;
+                                font-weight: 400;
+                            }
+                    }
+
+                    input[type="number"]{
+                        width: 50px;
+                    }
+
+                    textarea{
+                        width: 100%;
+                        min-height: 100px;
+                    }
+
+                    button{
+                        cursor: pointer;
+                        font-family: $font-main;
+                        border: $border-ugly;
+                        padding: .25rem .5rem;
+                        font-size: 1.5rem;
+                        background: transparent;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.d-flex{
+    display: flex;
+}
+
+.flex-space-between{
+    justify-content: space-between;
+}
+
+.error{
+    border: 2px solid red;
+}
