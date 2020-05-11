@@ -8,25 +8,34 @@ const Library = {
     submitButton: document.getElementsByClassName('submit')[0],
 
     init: function(){
-        this.render()
+        // events
         this.submitButton.addEventListener( 'click', this.addBook )
+
+        //get shelf and render
+        this.myShelf = this.getShelf()
+        this.render()
     },
 
     addBook: function( ){
         let form = this.form
+
+        // reset errors on form
         clearErrors( form )
 
-        let data = Object.fromEntries(new FormData(form).entries());
-        let book = new Book( data )
+        // create book from form data
+        let book = new Book( Object.fromEntries(new FormData(form).entries()) )
 
         if( book.isValid() ){
+            // add to local storage
             Library.addToShelf( book )
+
+            // display
             Library.render()
         } else { 
+
+            // gets and displays errors
             showErrors( book.errors ) 
         }
-
-
 
     },
 
@@ -43,7 +52,13 @@ const Library = {
     },
 
     getShelf: function(){
-        return JSON.parse( localStorage.getItem('shelf') );
+        /**
+         * Gets the shelf from local storage or return empty array
+         * @return array
+         */
+        let shelf = JSON.parse( localStorage.getItem('shelf') );
+
+        return ( shelf == null ) ? [] : shelf
     },
 
     render: function(){
@@ -70,13 +85,10 @@ const Library = {
         /**
          * Clears all inputs on successful book post
          */
-        let inputs = this.form.querySelectorAll('input');
+        let inputs = this.form.querySelectorAll('input, textarea');
         inputs.forEach( input => {
             input.value = ''
         } );
-
-        let textarea = this.form.querySelectorAll('textarea');
-        textarea[0].value = ''
 
     }
 
@@ -110,7 +122,7 @@ Book.prototype.isValid = function() {
 
 function showErrors( errors ){
     /**
-     * Highlights and adds description list item to ul#errors 
+     * Highlights and adds error list item to ul#errors 
      * @param array
      */
     let html = ''
