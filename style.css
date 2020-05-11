@@ -15,8 +15,15 @@ body {
     background-color: #fff;
     margin: 0 auto;
     max-width: 800px; }
-    body .wrapper #library .shelf {
+    body .wrapper #library #shelf {
       width: 50%; }
+      body .wrapper #library #shelf .book {
+        border: 1px dashed #666;
+        padding: .5rem;
+        text-align: center; }
+        body .wrapper #library #shelf .book .description {
+          font-size: .75rem;
+          color: #777; }
     body .wrapper #library .form-wrapper {
       background-color: #e1f9fd;
       border-left: 1px dashed #666;

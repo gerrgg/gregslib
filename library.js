@@ -8,6 +8,7 @@ const Library = {
     submitButton: document.getElementsByClassName('submit')[0],
 
     init: function(){
+        this.render()
         this.submitButton.addEventListener( 'click', this.addBook )
     },
 
@@ -19,20 +20,65 @@ const Library = {
         let book = new Book( data )
 
         if( book.isValid() ){
-            // add book
-            console.log( 'valid' )
-        } else {
-            // show errors
-            console.log( 'not valid' )
-            showErrors( book.errors )
+            Library.addToShelf( book )
+            Library.render()
+        } else { 
+            showErrors( book.errors ) 
         }
 
-        // if book.isValid
-        // add book to shelf
-        // else
-        // show errors
-        // end
+
+
     },
+
+    addToShelf: function( book ){
+        /**
+         * Adds book to library shelf
+         */
+        this.myShelf.push( book )
+
+        // add book to shelf, stringify whole thing
+
+        localStorage.setItem('shelf', JSON.stringify( this.myShelf ) )
+        this.clearForm()
+    },
+
+    getShelf: function(){
+        return JSON.parse( localStorage.getItem('shelf') );
+    },
+
+    render: function(){
+        /**
+         * Displays all books already added to shelf
+         */
+        let books = this.getShelf()
+        let html = ''
+
+        books.forEach( book => {
+            html += `<div class="book">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p>By ${book.author} on ${book.year}</p>
+                        <p>Pages: ${book.pages}</p>
+                        <p class="description">Note: ${book.description} </p>
+                    </div>`
+        }  );
+
+        this.shelf.innerHTML = html;
+        // foreach books, create html and add to shelf div.
+    },
+
+    clearForm: function(){
+        /**
+         * Clears all inputs on successful book post
+         */
+        let inputs = this.form.querySelectorAll('input');
+        inputs.forEach( input => {
+            input.value = ''
+        } );
+
+        let textarea = this.form.querySelectorAll('textarea');
+        textarea[0].value = ''
+
+    }
 
 }
 
@@ -45,6 +91,7 @@ function Book( data ){
 
     this.errors = []
 }
+
 
 Book.prototype.isValid = function() {
     /**
@@ -62,6 +109,10 @@ Book.prototype.isValid = function() {
 }
 
 function showErrors( errors ){
+    /**
+     * Highlights and adds description list item to ul#errors 
+     * @param array
+     */
     let html = ''
 
     errors.forEach( id  => {
@@ -74,12 +125,9 @@ function showErrors( errors ){
 }
 
 function clearErrors( form ){
-    inputs = form.querySelectorAll('input')
-    console.log( inputs )
-
+    inputs = form.querySelectorAll('.required')
 
     inputs.forEach( input  => {
-        console.log( input )
         input.classList.remove( 'error' );
     });
 }

@@ -28,8 +28,19 @@ body{
 
             @extend .d-flex;
 
-            .shelf{
-                width: 50%
+            #shelf{
+                width: 50%;
+
+                .book{
+                    border: $border-ugly;
+                    padding: .5rem;
+                    text-align: center;
+
+                    .description{
+                        font-size: .75rem;
+                        color: #777;
+                    }
+                }
             }
 
             .form-wrapper{
